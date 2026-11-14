@@ -26,7 +26,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest
-        pip install --no-build-isolation -e .
+        pip install .
 
     - name: Execute Unit Tests (IQC Validation)
       run: |

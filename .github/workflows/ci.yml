@@ -30,4 +30,4 @@ jobs:
 
     - name: Execute Unit Tests (IQC Validation)
       run: |
-        pytest -v
+        PYTHONPATH=. pytest -v

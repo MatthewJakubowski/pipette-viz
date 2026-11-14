@@ -36,6 +36,7 @@ X = "https://x.com/M_S_Jakubowski"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["pipette_viz*"]
 
 [tool.setuptools.package-data]
 pipette_viz = ["*.mplstyle"]

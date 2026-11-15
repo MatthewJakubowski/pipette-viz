@@ -46,6 +46,9 @@ def init_viz(mode: str = "clinical", dpi: int = 130, quiet: bool = False) -> dic
 
     sns.reset_orig()
     plt.style.use(str(style_path))
+    # Gwarantuje, że ax.set_title() i ax.get_title() na podwykresach i df.hist()
+    # używają standardowego slotu 'center', a brand_plot() sam ustawia loc='left' dla single-panel
+    plt.rcParams["axes.titlelocation"] = "center"
     plt.rcParams["figure.dpi"] = dpi
 
     palette_hex = [f"#{c.lstrip('#')}" for c in plt.rcParams["axes.prop_cycle"].by_key()["color"]]

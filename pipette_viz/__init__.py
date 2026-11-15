@@ -107,7 +107,7 @@ def brand_plot(
     _clear_previous_branding(fig, ax)
 
     if is_multipanel:
-        top_rect = 0.88 if subtitle else 0.92
+        top_rect = 0.86 if subtitle else 0.90
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", UserWarning)
             try:
@@ -116,12 +116,12 @@ def brand_plot(
                 fig.subplots_adjust(top=top_rect - 0.03, bottom=0.12)
 
         fig.suptitle(
-            title, x=0.01, y=0.98, ha="left",
+            title, x=0.01, y=0.97, ha="left",
             fontsize=14, fontweight="bold", color="#0F172A"
         )
         if subtitle:
             sub_txt = fig.text(
-                0.01, 0.915, subtitle, ha="left",
+                0.01, 0.91, subtitle, ha="left",
                 fontsize=10.5, fontweight="normal", color="#475569"
             )
             sub_txt._pipette_viz_tag = True

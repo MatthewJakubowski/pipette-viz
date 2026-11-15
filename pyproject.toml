@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pipette_viz"
-version = "1.1.0"
+version = "1.2.0"
 description = "Silicon Valley-grade Visualization & Personal Branding SDK for Classical ML, Deep Learning & Clinical XAI"
 authors = [{ name = "Mateusz Jakubowski" }]
 license = { text = "MIT" }
@@ -34,8 +34,8 @@ Kaggle = "https://www.kaggle.com/matthewjakubowski"
 HuggingFace = "https://huggingface.co/matthewjakubowski"
 X = "https://x.com/M_S_Jakubowski"
 
-[tool.setuptools.packages.find]
-where = ["."]
+[tool.setuptools]
+packages = ["pipette_viz"]
 
 [tool.setuptools.package-data]
 pipette_viz = ["*.mplstyle"]

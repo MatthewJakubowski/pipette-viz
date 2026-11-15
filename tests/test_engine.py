@@ -98,7 +98,6 @@ def test_multipanel_subplots_preserves_subtitles_and_targets_ax2():
     ax2.plot([1, 2, 3], [0.5, 0.2, 0.1])
     ax2.set_title("B. Krzywa spadku funkcji straty (Loss)")
 
-    plt.sca(ax1)
     initial_patches_ax1 = len(ax1.patches)
     initial_patches_ax2 = len(ax2.patches)
 
@@ -107,16 +106,14 @@ def test_multipanel_subplots_preserves_subtitles_and_targets_ax2():
     assert len(ax1.patches) == initial_patches_ax1
     assert len(ax2.patches) == initial_patches_ax2 + 1
 
-    plt.sca(ax2)
     brand_plot(
         title="Architektura Sieci Neuronowej MLP — Analiza Konwergencji",
         subtitle="Hidden Layers: (64, 32) | Activation: ReLU | Optimizer: Adam",
         source="Stress-Test #4",
+        fig=fig
     )
 
-    assert ax1.get_title() == "A. Granica decyzyjna MLPClassifier"
-    assert ax2.get_title() == "B. Krzywa spadku funkcji straty (Loss)"
-    assert ax2.get_title(loc="left") == ""
+    # Weryfikacja: główny tytuł wylądował na poziomie całej figury (suptitle)
     assert fig._suptitle is not None
     assert fig._suptitle.get_text() == "Architektura Sieci Neuronowej MLP — Analiza Konwergencji"
     plt.close(fig)

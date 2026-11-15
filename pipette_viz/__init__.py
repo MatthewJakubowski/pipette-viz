@@ -107,26 +107,30 @@ def brand_plot(
     _clear_previous_branding(fig, ax)
 
     if is_multipanel:
-        # Dynamiczne dopasowanie odstępu w zależności od liczby paneli (np. siatka 2x2 vs 1x2)
-        is_dense_grid = len(primary_axes) > 2
+        # Pobieramy najwyżej położoną oś (zazwyczaj ax1 w lewym górnym rogu)
+        # i pozycjonujemy nagłówek względem niej, co gwarantuje zero nachodzenia!
+        top_ax = primary_axes[0]
         
-        fig.subplots_adjust(top=0.75 if is_dense_grid else 0.78, bottom=0.12)
+        # Wymuszenie odstępu u góry figury, żeby zrobić miejsce na nagłówek
+        fig.subplots_adjust(top=0.85, bottom=0.10, left=0.08, right=0.95, hspace=0.3, wspace=0.25)
 
-        title_y = 1.08 if is_dense_grid else 1.05
-        sub_y = 1.01 if is_dense_grid else 0.98
-
-        fig.suptitle(
-            title, x=0.01, y=title_y, ha="left",
-            fontsize=13, fontweight="bold", color="#0F172A"
+        # Umieszczamy tytuł i podtytuł na figurze dokładnie nad górną krawędzią top_ax
+        trans = top_ax.transAxes
+        
+        fig.text(
+            0.0, 1.18, title,
+            transform=trans,
+            fontsize=13.5, fontweight="bold", color="#0F172A",
+            ha="left", va="bottom"
         )
         if subtitle:
             sub_txt = fig.text(
-                0.01, sub_y, subtitle, ha="left",
-                fontsize=9.5, fontweight="normal", color="#475569"
+                0.0, 1.09, subtitle,
+                transform=trans,
+                fontsize=10, fontweight="normal", color="#475569",
+                ha="left", va="bottom"
             )
-            sub_txt._pipette_viz_tag = True
-
-
+            sub_txt._pipette_viz_tag = type('obj', (object,), {'_pipette_viz_tag': True})
     else:
         if subtitle:
             ax.set_title(title, loc="left", pad=24, fontsize=14, fontweight="bold", color="#0F172A")
@@ -141,14 +145,14 @@ def brand_plot(
 
     if source:
         src_txt = fig.text(
-            0.01, -0.03, f"Source: {source}",
+            0.01, -0.04, f"Source: {source}",
             fontsize=8.5, color="#94A3B8", ha="left", style="italic"
         )
         src_txt._pipette_viz_tag = True
 
     if watermark:
         wm_txt = fig.text(
-            0.99, -0.03, watermark,
+            0.99, -0.04, watermark,
             fontsize=8.5, color="#64748B", ha="right", fontweight="bold"
         )
         wm_txt._pipette_viz_tag = True

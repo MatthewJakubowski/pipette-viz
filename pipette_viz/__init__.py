@@ -107,14 +107,8 @@ def brand_plot(
     _clear_previous_branding(fig, ax)
 
     if is_multipanel:
-        top_rect = 0.86 if subtitle else 0.90
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", UserWarning)
-            try:
-                fig.tight_layout(rect=[0, 0.03, 1, top_rect])
-            except Exception:
-                fig.subplots_adjust(top=top_rect - 0.03, bottom=0.12)
-
+        # Dla układów wielopanelowych ustawiamy wyłącznie główny tytuł i podtytuł na poziomie figury,
+        # całkowicie pomijając automatyczne wywołania tight_layout, które mogłyby resetować lokalne osi.
         fig.suptitle(
             title, x=0.01, y=0.97, ha="left",
             fontsize=14, fontweight="bold", color="#0F172A"

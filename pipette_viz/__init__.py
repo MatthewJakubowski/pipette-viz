@@ -107,21 +107,24 @@ def brand_plot(
     _clear_previous_branding(fig, ax)
 
     if is_multipanel:
-        # Zabezpieczamy przestrzeń od góry w samej figurze
-        fig.subplots_adjust(top=0.78, bottom=0.12)
+        # Dynamiczne dopasowanie odstępu w zależności od liczby paneli (np. siatka 2x2 vs 1x2)
+        is_dense_grid = len(primary_axes) > 2
+        
+        fig.subplots_adjust(top=0.75 if is_dense_grid else 0.78, bottom=0.12)
 
-        # Wędrujemy tytułem i podtytułem jeszcze wyżej
+        title_y = 1.08 if is_dense_grid else 1.05
+        sub_y = 1.01 if is_dense_grid else 0.98
+
         fig.suptitle(
-            title, x=0.01, y=1.05, ha="left",
-            fontsize=13.5, fontweight="bold", color="#0F172A"
+            title, x=0.01, y=title_y, ha="left",
+            fontsize=13, fontweight="bold", color="#0F172A"
         )
         if subtitle:
             sub_txt = fig.text(
-                0.01, 0.98, subtitle, ha="left",
-                fontsize=10, fontweight="normal", color="#475569"
+                0.01, sub_y, subtitle, ha="left",
+                fontsize=9.5, fontweight="normal", color="#475569"
             )
             sub_txt._pipette_viz_tag = True
-
 
 
     else:

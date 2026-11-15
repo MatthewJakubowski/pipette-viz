@@ -1,6 +1,7 @@
 import matplotlib
 matplotlib.use("Agg")
 
+import numpy as np
 import matplotlib.pyplot as plt
 from pipette_viz import (
     init_viz,
@@ -14,7 +15,7 @@ from pipette_viz import (
 
 def test_version_and_links():
     assert __version__ == "1.2.0"
-    assert ECOSYSTEM_LINKS["Main Hub"] == "https://mateusz-jakubowski.ai.studio/"
+    assert ECOSYSTEM_LINKS["Main Hub"] == "https://mateusz-jakubowski.ai.studio"
 
 
 def test_init_viz_engine():
@@ -22,6 +23,7 @@ def test_init_viz_engine():
     assert isinstance(colors, dict)
     assert colors["train"] == "#005A9C"
     assert colors["cito"] == "#D9534F"
+    assert colors["xai"] == "#6C5B7B"
     assert plt.rcParams["figure.dpi"] == 130
     assert plt.rcParams["axes.spines.top"] is False
     assert plt.rcParams["axes.spines.right"] is False
@@ -110,10 +112,33 @@ def test_multipanel_subplots_preserves_subtitles_and_targets_ax2():
         title="Architektura Sieci Neuronowej MLP — Analiza Konwergencji",
         subtitle="Hidden Layers: (64, 32) | Activation: ReLU | Optimizer: Adam",
         source="Stress-Test #4",
-        fig=fig
+        fig=fig,
     )
 
-    # Weryfikacja: główny tytuł wylądował na poziomie całej figury (suptitle)
+    assert ax1.get_title() == "A. Granica decyzyjna MLPClassifier"
+    assert ax2.get_title() == "B. Krzywa spadku funkcji straty (Loss)"
     assert fig._suptitle is not None
     assert fig._suptitle.get_text() == "Architektura Sieci Neuronowej MLP — Analiza Konwergencji"
+    plt.close(fig)
+
+
+def test_dense_feature_histograms_ndarray_support():
+    """Symuluje zachowanie df.hist() zwracającego macierz np.ndarray 9 podwykresów (3x3)."""
+    init_viz(quiet=True)
+    fig, axes = plt.subplots(3, 3, figsize=(14, 10))
+    for idx, ax in enumerate(axes.ravel()):
+        ax.hist(np.random.randn(50), bins=10)
+        ax.set_title(f"Feature_{idx + 1}")
+
+    # Przekazujemy bezpośrednio macierz axes (jak z axes = df.hist())
+    brand_plot(
+        title="Rozkład Atrybutów Wejściowych — Walidacja Wielowymiarowa (3x3)",
+        subtitle="Automatyczna inspekcja skośności i wartości odstających przed transformacją",
+        source="EDA Pipeline #FromPipetteToPython",
+        ax=axes,
+    )
+
+    assert fig._suptitle is not None
+    assert axes[0, 0].get_title() == "Feature_1"
+    assert axes[2, 2].get_title() == "Feature_9"
     plt.close(fig)

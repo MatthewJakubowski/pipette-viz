@@ -107,18 +107,18 @@ def brand_plot(
     _clear_previous_branding(fig, ax)
 
     if is_multipanel:
-        # Podnosimy główny tytuł wyżej (y=0.99) oraz podtytuł (y=0.93), 
-        # żeby zrobić czystą przestrzeń nad tytulikami A. i B. podwykresów.
+        # Znacznie wyższy bufor dla suptitle (y=1.03) i podtytułu (y=0.96)
         fig.suptitle(
-            title, x=0.01, y=0.99, ha="left",
-            fontsize=14, fontweight="bold", color="#0F172A"
+            title, x=0.01, y=1.03, ha="left",
+            fontsize=13.5, fontweight="bold", color="#0F172A"
         )
         if subtitle:
             sub_txt = fig.text(
-                0.01, 0.93, subtitle, ha="left",
-                fontsize=10.5, fontweight="normal", color="#475569"
+                0.01, 0.96, subtitle, ha="left",
+                fontsize=10, fontweight="normal", color="#475569"
             )
             sub_txt._pipette_viz_tag = True
+
 
     else:
         if subtitle:
